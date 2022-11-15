@@ -25,9 +25,9 @@ def main(training_set_ratio):
         columns=('down', 'left', 'right', 'up')
     )
 
-    images = [(p, f) for p, f in common.get_files(common.SAMPLES_DIR) if f[-5] != 'F']
-
-    if images:
+    if images := [
+        (p, f) for p, f in common.get_files(common.SAMPLES_DIR) if f[-5] != 'F'
+    ]:
         for _, filename in images:
             arrow_direction, arrow_type = common.arrow_labels(filename)
 
@@ -35,15 +35,15 @@ def main(training_set_ratio):
 
         num_samples = int(arrows.min().min() * training_set_ratio)
 
-        print("Samples per type: {}".format(num_samples * 4))
+        print(f"Samples per type: {num_samples * 4}")
 
         for t, _ in arrows.iterrows():
-            print("\nProcessing {} arrows...".format(t))
+            print(f"\nProcessing {t} arrows...")
 
             for direction in arrows:
                 candidates = [(p, f) for p, f in images if common.arrow_labels(f) == (direction, t)]
 
-                print("{}: {}".format(direction, len(candidates)))
+                print(f"{direction}: {len(candidates)}")
 
                 training = random.sample(candidates, num_samples)
                 for path, filename in training:

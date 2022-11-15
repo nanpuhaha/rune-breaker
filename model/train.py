@@ -130,7 +130,7 @@ def fit(model, training, validation, batch_size):
         verbose=2)
 
     best_epoch = np.argmin(history.history['val_loss']) + 1
-    print("\n" + cf.lightGreen("Best epoch: {}".format(best_epoch)))
+    print("\n" + cf.lightGreen(f"Best epoch: {best_epoch}"))
 
 
 def setup_callbacks():

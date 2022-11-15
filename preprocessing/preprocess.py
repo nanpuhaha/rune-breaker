@@ -85,8 +85,10 @@ def main(inspection, mode, automatic):
             print("Skipped!")
 
     if len(labeled_imgs) > 0:
-        print("\nApproved {} out of {} images ({}%).\n".format(
-            approved, len(labeled_imgs), 100 * approved // len(labeled_imgs)))
+        print(
+            f"\nApproved {approved} out of {len(labeled_imgs)} images ({100 * approved // len(labeled_imgs)}%).\n"
+        )
+
     else:
         print("There are no images to preprocess.\n")
 
@@ -251,7 +253,7 @@ def save_arrow_imgs(arrows, labeled_filename):
                 arrow_img = cv2.rotate(arrow_img, cv2.ROTATE_90_CLOCKWISE)
 
             direction = get_direction(directions[x], rotation)
-            arrow_path = "{}{}_{}_{}".format(common.SAMPLES_DIR, arrow_type, direction, uuid.uuid4())
+            arrow_path = f"{common.SAMPLES_DIR}{arrow_type}_{direction}_{uuid.uuid4()}"
 
             cv2.imwrite(arrow_path + ".png", arrow_img)
 
@@ -259,7 +261,7 @@ def save_arrow_imgs(arrows, labeled_filename):
                 flipped_img = cv2.flip(arrow_img, 1)
             else:
                 flipped_img = cv2.flip(arrow_img, 0)
-            
+
             cv2.imwrite(arrow_path + "F.png", flipped_img)
 
     os.rename(common.LABELED_DIR + labeled_filename,

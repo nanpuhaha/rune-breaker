@@ -35,7 +35,7 @@ def main():
 
     num_labeled = 0
     for path, filename in unlabeled_imgs:
-        print("Processing {}...".format(filename))
+        print(f"Processing {filename}...")
 
         img = plt.imread(path)
 
@@ -55,8 +55,8 @@ def main():
         plt.show()
 
         if type_label and direction_label:
-            dst_filename = "{}_{}_{}.png".format(
-                type_dictionary[type_label], direction_label, time.strftime("%Y%m%d-%H%M%S"))
+            dst_filename = f'{type_dictionary[type_label]}_{direction_label}_{time.strftime("%Y%m%d-%H%M%S")}.png'
+
 
             os.rename(path, common.LABELED_DIR + dst_filename)
 
@@ -66,8 +66,10 @@ def main():
             num_labeled += 1
 
     if len(unlabeled_imgs) > 0:
-        print("\nLabeled {} out of {} images ({}%).".format(
-            num_labeled, len(unlabeled_imgs), 100 * num_labeled // len(unlabeled_imgs)))
+        print(
+            f"\nLabeled {num_labeled} out of {len(unlabeled_imgs)} images ({100 * num_labeled // len(unlabeled_imgs)}%)."
+        )
+
         print("Finished!")
     else:
         print("\nThere are no images to label.")
@@ -93,13 +95,9 @@ def on_press(event):
     elif event.key == 'z':
         type_label = None
         direction_label = ''
-    
-    if event.key != 'q':
-        if not type_label:
-            t = '-'
-        else:
-            t = type_dictionary[type_label]
 
+    if event.key != 'q':
+        t = type_dictionary[type_label] if type_label else '-'
         plt_text.set_text(make_text(t, direction_label))
         plt.draw()
 
@@ -117,9 +115,7 @@ def make_text(type_label, direction_label):
         elif d == 'u':
             directions.append('up')
 
-    for x in range(len(direction_label), 4):
-        directions.append('-')
-
+    directions.extend('-' for _ in range(len(direction_label), 4))
     return "%s: { %s, %s, %s, %s }" % (type_label, directions[0], directions[1], directions[2], directions[3])
 
 

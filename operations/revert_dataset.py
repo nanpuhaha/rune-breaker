@@ -27,7 +27,7 @@ def revert_files(src_dir):
     for path, filename in images:
         os.rename(path, common.SAMPLES_DIR + filename)
 
-    print("Reverted {} images.\n".format(len(images)))
+    print(f"Reverted {len(images)} images.\n")
 
 
 if __name__ == "__main__":

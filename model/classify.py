@@ -19,7 +19,7 @@ def main(src_subdir, verbose, model_name):
     common.create_directories()
 
     src_dir = common.DATA_DIR + src_subdir + "/"
-    
+
     model = tensorflow.keras.models.load_model(common.MODEL_DIR + model_name)
 
     # real (index) x predicted (column)
@@ -37,7 +37,7 @@ def main(src_subdir, verbose, model_name):
 
     images = common.get_files(src_dir)
 
-    print("Processing {} file(s) in {}/...\n".format(len(images), src_subdir))
+    print(f"Processing {len(images)} file(s) in {src_subdir}/...\n")
 
     for path, filename in images:
         img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
@@ -52,10 +52,10 @@ def main(src_subdir, verbose, model_name):
 
         if verbose and real_class != predicted_class:
             print(path)
-            print("Expected {} but got {}: {}\n".format(
-                cf.lightGreen(real_class),
-                cf.lightCoral(predicted_class),
-                str(prediction[0])))
+            print(
+                f"Expected {cf.lightGreen(real_class)} but got {cf.lightCoral(predicted_class)}: {str(prediction[0])}\n"
+            )
+
 
         confusion_matrix[predicted_class][real_class] += 1
 
